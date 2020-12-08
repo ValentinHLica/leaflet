@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://scripts.sirv.com/sirv.nospin.js"></script>
+  </head>
+  <body>
+    <div id="zoom"></div>
+
+    <script>
+      map.addListener("zoom_changed", function () {
+        var currentZoom = map.getZoom();
+        console.log("Zoom: " + currentZoom);
+        //You can now set the value to the div content
+        document.getElementById("zoom").innerHTML = currentZoom;
+      });
+    </script>
+  </body>
+</html>

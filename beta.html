@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""
+    ></script>
+
+    <script src="https://leafletjs.com/examples/choropleth/us-states.js"></script>
+  </head>
+
+  <body>
+    <div id="map" style="width: 100%; height: 400px"></div>
+
+    <h1 class="total" style="text-align: center"></h1>
+
+    <script>
+      var map = L.map("map", {
+        center: [45.9, 16.4],
+        zoom: 8,
+      });
+
+      let total = 0;
+      const totalEl = document.querySelector(".total");
+      totalEl.textContent = total;
+
+      // Fetch Json per te
+      fetch("./dots.geojson")
+        .then((e) => e.json())
+        .then((e) => {
+          L.geoJson(e)
+            .bindPopup(function (Layer) {
+              // Krijo elementin dhe shto funx e klikimit
+              const popupEl = `<div  onclick="total += ${Layer.feature.properties.price};totalEl.textContent = total">${Layer.feature.properties.price}</div>`;
+
+              return popupEl;
+            })
+            .addTo(map);
+        });
+    </script>
+  </body>
+</html>
